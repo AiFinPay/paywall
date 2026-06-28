@@ -1,0 +1,20 @@
+name: Schemas
+
+on:
+  pull_request:
+    paths:
+      - "schemas/**"
+      - "docs/aifp/10-JSON-Schemas.md"
+      - ".github/workflows/schemas.yml"
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Schema validation plan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check schema documentation exists
+        run: |
+          test -f schemas/README.md
+          test -f docs/aifp/10-JSON-Schemas.md
