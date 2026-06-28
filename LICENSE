@@ -1,0 +1,25 @@
+AiFinPay Paywall Protocol Repository License
+
+Copyright (c) 2026 AiFinPay, Inc.
+
+This repository uses dual licensing by artifact type:
+
+1. Code, examples, schemas, scripts, tests, GitHub workflows, and machine-readable artifacts are licensed under the Apache License, Version 2.0.
+2. Documentation, prose specifications, diagrams, and governance documents are licensed under Creative Commons Attribution 4.0 International (CC BY 4.0), unless a file states otherwise.
+
+Apache-2.0 summary:
+
+You may use, copy, modify, merge, publish, distribute, sublicense, and sell copies of the software, subject to the Apache License, Version 2.0.
+
+CC BY 4.0 summary:
+
+You may share and adapt the documentation for any purpose, including commercially, as long as appropriate attribution is provided.
+
+The AiFinPay name, logos, and marks are trademarks of AiFinPay, Inc. This license does not grant trademark rights.
+
+Protocol implementation is open. Implementations may compete, provided they do not misrepresent conformance or misuse AiFinPay trademarks.
+
+Full license texts:
+
+- Apache License 2.0: https://www.apache.org/licenses/LICENSE-2.0
+- Creative Commons Attribution 4.0: https://creativecommons.org/licenses/by/4.0/
