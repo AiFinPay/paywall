@@ -1,0 +1,12 @@
+openapi: 3.1.0
+info:
+  title: AiFinPay Payment Protocol API
+  version: 1.0.0
+  description: >-
+    Canonical source path reserved for the full OpenAPI 3.1 specification from the attached documentation package.
+servers:
+  - url: https://api.aifinpay.io/v1
+  - url: https://sandbox.api.aifinpay.io/v1
+paths: {}
+components:
+  schemas: {}
