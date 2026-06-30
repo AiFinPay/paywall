@@ -4,6 +4,16 @@ This page gives the shortest path through AiFinPay Paywall Protocol for merchant
 
 For the canonical guide, see [`docs/aifp/07-Quick-Start-Guide.md`](aifp/07-Quick-Start-Guide.md).
 
+## Pricing Snapshot
+
+| Tier | Starts From | Typical Action |
+|---|---:|---|
+| Standard | `$0.00001` | Simple read, single record, lightweight API request |
+| Complex | `$0.00006` | Search, aggregation, multi-source queries, higher compute |
+| Premium | `$0.00010` | AI inference, GPU workloads, deep analytics, premium data |
+
+AiFinPay charges a **1% protocol fee** on every successful transaction. The remaining **99%** is settled to the merchant, excluding applicable network or settlement costs.
+
 ## Merchant
 
 ```bash
@@ -15,9 +25,8 @@ import { aifpPaywall } from "@aifinpay/merchant";
 
 app.use(aifpPaywall({
   merchantId: "mrch_...",
-  freeQuota: 100,
   pricing: {
-    "/api/data": { complexity: "standard" }
+    "/api/data": { tier: "standard" }
   }
 }));
 ```
@@ -63,7 +72,7 @@ sequenceDiagram
 curl https://api.aifinpay.io/v1/quote \
   -H "Authorization: Bearer $AIFP_AGENT_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"merchant_id":"mrch_9f3a1c2b","resource":"/api/data","complexity":"standard"}'
+  -d '{"merchant_id":"mrch_9f3a1c2b","resource":"/api/data","pricing_tier":"standard"}'
 ```
 
 ## Next Steps
