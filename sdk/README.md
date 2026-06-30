@@ -14,6 +14,18 @@ AiFinPay SDKs provide merchant middleware, agent auto-pay clients, receipt verif
 | PHP | Planned | Planned | `aifinpay/aifp` |
 | .NET | Planned | Planned | `AiFinPay` |
 
+## Pricing Helpers
+
+SDKs should expose pricing as first-class protocol data, not as hard-coded merchant logic.
+
+| Helper | Value |
+|---|---|
+| `standard` | From `$0.00001` for simple reads, single records, and lightweight API requests. |
+| `complex` | From `$0.00006` for search, aggregation, multi-source queries, and higher compute. |
+| `premium` | From `$0.00010` for AI inference, GPU workloads, deep analytics, and premium data. |
+| `protocolFeeRate` | `0.01`, representing the AiFinPay Protocol Fee of 1%. |
+| `merchantSettlementRate` | `0.99`, before any applicable network or settlement costs. |
+
 ## SDK Architecture
 
 ```mermaid
@@ -21,9 +33,12 @@ flowchart TD
     Core["Protocol Core"] --> Types["Generated Types"]
     Core --> Receipt["Receipt Verifier"]
     Core --> Errors["Error Registry"]
+    Core --> Pricing["Pricing Helpers"]
     Types --> Merchant["Merchant Middleware"]
     Types --> Agent["Agent Client"]
     Types --> Wallet["Wallet Client"]
+    Pricing --> Merchant
+    Pricing --> Agent
     Merchant --> Frameworks["Express / Fastify / Next / Django / Rails"]
     Agent --> Fetch["fetch / requests / http clients"]
     Wallet --> Settlement["Stablecoin / fiat adapters"]
