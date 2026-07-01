@@ -1,8 +1,260 @@
 {
   "info": {
-    "name": "AiFinPay Paywall Protocol",
-    "description": "Canonical source path reserved for the full Postman collection from the attached documentation package.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "name": "AiFinPay Paywall Protocol (AIFP) v1",
+    "description": "Official Postman collection for the AiFinPay Paywall Protocol (AIFP-1). Covers Quote, Pay, Receipt, Merchant, Wallet, Passport, and Verification APIs. Governed by AIFP-1 (Doc 01) and aligned to the OpenAPI 3.1 spec (Doc 08). Pricing tiers: Standard from $0.00001, Complex from $0.00006, Premium from $0.00010. AiFinPay Protocol Fee: 1% of every successful transaction; 99% settles to the merchant excluding applicable payment-network or settlement costs. Receipts are Ed25519 JWTs (TTL 600s).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "aifp-0001-collection-v1",
+    "version": "1.0.0"
   },
-  "item": []
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{api_key}}", "type": "string" }]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Auto-generate an Idempotency-Key for /v1/pay if not present",
+          "if (pm.request.url.getPath().endsWith('/v1/pay') && !pm.request.headers.has('Idempotency-Key')) {",
+          "  pm.request.headers.add({ key: 'Idempotency-Key', value: pm.variables.replaceIn('{{$guid}}') });",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    { "key": "base_url", "value": "https://sandbox.api.aifinpay.io", "type": "string" },
+    { "key": "api_key", "value": "sk_test_REPLACE_ME", "type": "string" },
+    { "key": "merchant_id", "value": "mrch_9f3a1c2b", "type": "string" },
+    { "key": "wallet_id", "value": "wlt_3a1b", "type": "string" },
+    { "key": "agent_id", "value": "agt_4f9a2c7e", "type": "string" },
+    { "key": "resource", "value": "/api/data", "type": "string" },
+    { "key": "pricing_tier", "value": "standard", "type": "string" },
+    { "key": "quote_id", "value": "", "type": "string" },
+    { "key": "receipt_id", "value": "", "type": "string" },
+    { "key": "passport_id", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Quote API",
+      "item": [
+        {
+          "name": "Create Quote",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 OK', () => pm.response.code === 200);",
+                  "const b = pm.response.json();",
+                  "pm.collectionVariables.set('quote_id', b.quote_id);",
+                  "pm.test('has nonce + expiry', () => b.nonce && b.expires_at);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/v1/quote", "host": ["{{base_url}}"], "path": ["v1", "quote"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"merchant_id\": \"{{merchant_id}}\",\n  \"resource\": \"{{resource}}\",\n  \"pricing_tier\": \"{{pricing_tier}}\",\n  \"currency\": \"USD\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pay API",
+      "item": [
+        {
+          "name": "Create Payment (idempotent)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 or 202', () => [200,202].includes(pm.response.code));",
+                  "const b = pm.response.json();",
+                  "pm.collectionVariables.set('receipt_id', b.receipt_id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Idempotency-Key", "value": "{{$guid}}" }
+            ],
+            "url": { "raw": "{{base_url}}/v1/pay", "host": ["{{base_url}}"], "path": ["v1", "pay"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"quote_id\": \"{{quote_id}}\",\n  \"wallet_id\": \"{{wallet_id}}\",\n  \"asset\": \"USDC\",\n  \"chain\": \"polygon\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Receipt API",
+      "item": [
+        {
+          "name": "Get Receipt",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/receipt/{{receipt_id}}", "host": ["{{base_url}}"], "path": ["v1", "receipt", "{{receipt_id}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Verification API",
+      "item": [
+        {
+          "name": "Get JWKS",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/.well-known/jwks.json", "host": ["{{base_url}}"], "path": [".well-known", "jwks.json"] }
+          }
+        },
+        {
+          "name": "Verify Receipt (assisted)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/v1/verify", "host": ["{{base_url}}"], "path": ["v1", "verify"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receipt\": \"<JWT>\",\n  \"merchant_id\": \"{{merchant_id}}\",\n  \"resource\": \"{{resource}}\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Merchant API",
+      "item": [
+        {
+          "name": "Create Merchant",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/v1/merchants", "host": ["{{base_url}}"], "path": ["v1", "merchants"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Acme Data API\",\n  \"settlement\": { \"mode\": \"hybrid\", \"payout_addresses\": { \"polygon\": \"0xMerchant...\" } }\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Merchant",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/merchants/{{merchant_id}}", "host": ["{{base_url}}"], "path": ["v1", "merchants", "{{merchant_id}}"] }
+          }
+        },
+        {
+          "name": "Set Resource Pricing",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/v1/merchants/{{merchant_id}}/resources", "host": ["{{base_url}}"], "path": ["v1", "merchants", "{{merchant_id}}", "resources"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"/api/data\": \"standard\",\n  \"/api/search\": \"complex\",\n  \"/api/llm\": \"premium\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wallet API",
+      "item": [
+        {
+          "name": "Create Wallet",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/v1/wallets", "host": ["{{base_url}}"], "path": ["v1", "wallets"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": \"{{agent_id}}\",\n  \"type\": \"non_custodial\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Set Budget Policy",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/v1/wallets/{{wallet_id}}/budget", "host": ["{{base_url}}"], "path": ["v1", "wallets", "{{wallet_id}}", "budget"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"per_window\": { \"window\": \"day\", \"cap_usd\": \"50.00\" },\n  \"per_merchant\": { \"{{merchant_id}}\": \"10.00\" }\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Passport API",
+      "item": [
+        {
+          "name": "Create Passport",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const b = pm.response.json();",
+                  "if (b.passport_id) pm.collectionVariables.set('passport_id', b.passport_id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/v1/passports", "host": ["{{base_url}}"], "path": ["v1", "passports"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": \"{{agent_id}}\",\n  \"public_key\": \"<ed25519-base64url>\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Passport (reputation/risk/trust)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/v1/passports/{{passport_id}}", "host": ["{{base_url}}"], "path": ["v1", "passports", "{{passport_id}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Migration API",
+      "item": [
+        {
+          "name": "Migrate from x402 (1000 free requests)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{base_url}}/v1/migrate/x402", "host": ["{{base_url}}"], "path": ["v1", "migrate", "x402"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"agent_id\": \"{{agent_id}}\",\n  \"x402_endpoint\": \"https://legacy.example.com/x402\"\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
 }

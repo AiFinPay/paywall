@@ -1,4 +1,4 @@
-# Merchant Guide
+﻿# Merchant Guide
 
 Merchants integrate AIFP to monetize APIs, content, and data consumed by AI agents.
 
@@ -6,7 +6,7 @@ Merchants integrate AIFP to monetize APIs, content, and data consumed by AI agen
 
 | Responsibility | Description |
 |---|---|
-| Price resources | Assign complexity tier and free quota |
+| Price resources | Assign pricing_tier tier and free quota |
 | Return challenges | Emit `402 Payment Required` with machine-readable payload |
 | Verify receipts | Check signature, issuer, audience, resource, amount, expiry, nonce |
 | Serve content | Grant access after successful local verification |
@@ -32,3 +32,4 @@ flowchart TD
 - [AIFP-1 RFC](aifp/01-AIFP-1-RFC-Payment-Protocol-Specification.md)
 - [Security & Cryptography Specification](aifp/04-Security-and-Cryptography-Specification.md)
 - [OpenAPI 3.1](aifp/08-OpenAPI-3.1-Specification.yaml)
+
