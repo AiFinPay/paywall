@@ -1,0 +1,66 @@
+{
+  "name": "@aifinpay/paywall",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AiFinPay Paywall Protocol (AIFP-1) meta-package. Houses the canonical protocol documentation, OpenAPI/JSON Schema contracts, SDK design surface, examples, and conformance scaffolding for the HTTP 402 payment handshake for autonomous AI agents.",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/AiFinPay/paywall#readme",
+  "bugs": {
+    "url": "https://github.com/AiFinPay/paywall/issues",
+    "email": "security@aifinpay.io"
+  },
+  "keywords": [
+    "aifinpay",
+    "aifp",
+    "aifp-1",
+    "paywall",
+    "payments",
+    "http-402",
+    "402-payment-required",
+    "ai-agents",
+    "agentic-commerce",
+    "machine-to-machine",
+    "micropayments",
+    "receipts",
+    "ed25519",
+    "openapi",
+    "json-schema",
+    "protocol"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AiFinPay/paywall.git"
+  },
+  "contributors": [
+    {
+      "name": "Dmitry Bugaenko",
+      "url": "contact@aifinpay.company"
+    },
+    {
+      "name": "Pavlo Bolhar",
+      "url": "pavlo.bolhar@proton.me"
+    }
+  ],
+  "files": [
+    "docs/",
+    "schemas/",
+    "sdk/",
+    "examples/",
+    "sandbox/",
+    "scripts/",
+    "tests/",
+    "assets/",
+    "README.md",
+    "LICENSE",
+    "AGENTS.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "SUPPORT.md",
+    "CODE_OF_CONDUCT.md",
+    "CHANGELOG.md",
+    "ROADMAP.md"
+  ],
+  "devDependencies": {
+    "@daochild/agents-config": "^1.0.5"
+  }
+}
