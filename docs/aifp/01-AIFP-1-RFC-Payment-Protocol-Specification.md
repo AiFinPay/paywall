@@ -805,7 +805,32 @@ stateDiagram-v2
     Receipted --> [*]
 ```
 
-A merchant MUST NOT require settlement *confirmation* before accepting a receipt: the receipt itself is the access credential, and AiFinPay assumes settlement risk for issued receipts. Where confirmation is required (high-value resources), the merchant MAY demand `425`-then-`200` semantics keyed on `tx_ref`.
+A receipt is issued only against a real, verified on-chain settlement (`tx_ref`), so a merchant can accept it on local signature verification alone in the request hot path. For high-value resources the merchant MAY additionally demand `425`-then-`200` semantics keyed on `tx_ref` (independent on-chain confirmation) before serving.
+
+## 19.4. Batch settlement
+
+Unit prices (Section 6.5) are per-request **metering values**, not individual on-chain
+payments — a single request at USD 0.00001 is far below the economic floor of an
+on-chain transfer. Value moves on-chain in **batches**:
+
+1. **Prepaid top-up.** The agent prepays a batch of requests (default minimum
+   **USD 0.10**, merchant-configurable) in ONE on-chain transaction through the
+   payment splitter. The standard fee-on-top split applies to the batch, and 99%
+   settles to the merchant immediately — AiFinPay never holds the balance.
+2. **Quota receipt.** The batch settlement yields a **multi-use receipt** carrying a
+   `quota` claim (the number of prepaid requests at the quoted tier), bound to the
+   batch `tx_ref`. Default TTL for quota receipts is **30 days** (single-use receipts
+   remain 600 s).
+3. **Local metering.** The merchant verifies the receipt statelessly (Section 7.4) and
+   decrements a local counter per request until the quota is exhausted; the agent then
+   receives `402` again and tops up the next batch.
+4. **Balance semantics.** The prepaid balance is a merchant-side credit (the funds have
+   already settled to the merchant). Unused quota SHOULD roll over on the agent's next
+   top-up with the same merchant, with a RECOMMENDED validity of 90 days. Refunds are
+   out of scope for v1.
+5. **Scope.** v1 is prepaid-only. Post-paid tabs (accumulate-then-settle) are a future
+   extension and, when introduced, MUST be capped relative to the agent's previously
+   settled volume.
 
 ---
 

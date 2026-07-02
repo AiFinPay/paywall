@@ -219,6 +219,7 @@ Every receipt is verified locally by the merchant:
 |---|---|
 | Protocol fee | AiFinPay charges **1%** of every successful transaction |
 | Merchant settlement | The remaining **99%** is settled to the merchant |
+| Batch settlement | Unit prices are per-request **metering values** — agents prepay a batch (e.g. `$0.10` ≈ 10,000 standard requests) in **one** on-chain transaction and spend it down per request via a multi-use quota receipt. See AIFP-1 §19.4 |
 | Settlement costs | Payment network, gas, processor, or settlement costs may apply separately |
 | Idempotency | `Idempotency-Key`, 24 hour dedupe window |
 | x402 migration | 1,000 free migration requests |
