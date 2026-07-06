@@ -67,3 +67,21 @@ Status: completed.
 - PDF copies in `docs/aifp/*.pdf` were not regenerated in Phase 1 and may still contain previous wording until the PDF generation step is run.
 - Package registry availability still needs independent verification before release notes claim published SDKs.
 - No contract deployment registry or third-party audit report is present in this repository.
+
+## Phase 2 - Documentation Metadata Alignment
+
+Status: completed.
+
+### Corrections Applied
+
+| Finding | Correction |
+|---|---|
+| Root package metadata referenced `AiFinPay/paywall` | Updated homepage, issues URL, and repository URL to `AiFinPay/Protocol-AIFP-1`. |
+| Root package name referenced `@aifinpay/paywall` | Updated package name to `@aifinpay/protocol-aifp-1`. |
+| Personal contact metadata appeared in package contributors | Replaced individual contact entries with `AiFinPay Protocol Team`. |
+| Agent instructions referenced old package name | Updated `AGENTS.md` to the public protocol package name. |
+
+### Remaining Known Limitations
+
+- The root package is still marked `private: true`; this is appropriate while the package is a meta-package and not intended for npm publication.
+- Registry availability for SDK packages remains outside this repository and must be verified before public release announcements.

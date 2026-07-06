@@ -1,12 +1,12 @@
 {
-  "name": "@aifinpay/paywall",
+  "name": "@aifinpay/protocol-aifp-1",
   "version": "0.1.0",
   "private": true,
   "description": "AiFinPay Paywall Protocol (AIFP-1) meta-package. Houses the canonical protocol documentation, OpenAPI/JSON Schema contracts, SDK design surface, examples, and conformance scaffolding for the HTTP 402 payment handshake for autonomous AI agents.",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/AiFinPay/paywall#readme",
+  "homepage": "https://github.com/AiFinPay/Protocol-AIFP-1#readme",
   "bugs": {
-    "url": "https://github.com/AiFinPay/paywall/issues",
+    "url": "https://github.com/AiFinPay/Protocol-AIFP-1/issues",
     "email": "security@aifinpay.io"
   },
   "keywords": [
@@ -29,16 +29,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AiFinPay/paywall.git"
+    "url": "git+https://github.com/AiFinPay/Protocol-AIFP-1.git"
   },
   "contributors": [
     {
-      "name": "Dmitry Bugaenko",
-      "url": "contact@aifinpay.company"
-    },
-    {
-      "name": "Pavlo Bolhar",
-      "url": "pavlo.bolhar@proton.me"
+      "name": "AiFinPay Protocol Team",
+      "url": "https://aifinpay.io"
     }
   ],
   "files": [

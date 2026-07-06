@@ -6,7 +6,7 @@ Primary instructions are located at:
 Follow all instructions from that file unless overridden below.
 
 Operating instructions for AI coding agents working in the
-`@aifinpay/paywall` repository (the AiFinPay Paywall Protocol, AIFP-1).
+`@aifinpay/protocol-aifp-1` repository (the AiFinPay Paywall Protocol, AIFP-1).
 
 This file applies to the entire repository. Follow it alongside
 `CONTRIBUTING.md`, `SECURITY.md`, `SUPPORT.md`, and `CODE_OF_CONDUCT.md`.
@@ -30,7 +30,7 @@ hand-edit them.
 
 | Path | Purpose |
 |---|---|
-| `package.json` | Declares the npm package name `@aifinpay/paywall` and the `@daochild/agents-config` dev dependency. There is no application source in this root package; it is a meta-package. |
+| `package.json` | Declares the npm package name `@aifinpay/protocol-aifp-1` and the `@daochild/agents-config` dev dependency. There is no application source in this root package; it is a meta-package. |
 | `docs/aifp/01-...15-...` | Source of truth for protocol behavior. Treat as normative. |
 | `docs/aifp/08-OpenAPI-3.1-Specification.yaml` | API contract, must match protocol docs. |
 | `docs/aifp/10-JSON-Schemas.md` | Object shape contract, must match OpenAPI and protocol docs. |
