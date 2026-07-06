@@ -30,7 +30,7 @@ flowchart TB
 
     subgraph Settlement["Settlement"]
         Stable["Stablecoins"]
-        Fiat["Fiat / BVNK"]
+        Fiat["Fiat / regulated rails"]
         Chains["12 Networks"]
     end
 

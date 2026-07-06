@@ -31,7 +31,7 @@ docs.aifinpay.io
 │   ├── Merchant Integration (Doc 02 · 15 frameworks)
 │   ├── Building an Agent (Doc 03)
 │   ├── x402 Migration
-│   ├── Hybrid Fiat Settlement (BVNK)
+│   ├── Hybrid Fiat Settlement
 │   └── Webhooks
 ├── API Reference
 │   ├── API Explorer (live, OpenAPI 3.1 · Doc 08)
@@ -136,7 +136,7 @@ Each card links source repo (Doc 15), changelog, and the SDK Reference (Doc 11) 
 
 ## 8. Sandbox
 
-- Base URL `https://sandbox.api.aifinpay.io`, test keys, **faucet** for USDC/USDT/PYUSD.
+- Base URL `https://sandbox.api.aifinpay.io`, test keys, and hosted sandbox test-token tooling.
 - Simulated settlement; test `kid` JWKS. One-click "reset sandbox" and "seed merchant +
   agent + wallet" fixtures.
 
@@ -158,7 +158,7 @@ Each card links source repo (Doc 15), changelog, and the SDK Reference (Doc 11) 
 - *Which chains/assets?* 12 networks; USDC/USDT/PYUSD (Doc 01 App. B).
 - *How do micropayments work?* Agent actions are priced by tier: Standard from $0.00001, Complex from $0.00006, Premium from $0.00010.
 - *What is the protocol fee?* AiFinPay charges 1% on successful transactions; 99% settles to the merchant, excluding applicable network or settlement costs.
-- *Is it x402-compatible?* Yes, with 1,000 free migration requests.
+- *Is it x402-compatible?* Yes. Migration incentives, if any, are published through the official developer portal.
 
 ---
 

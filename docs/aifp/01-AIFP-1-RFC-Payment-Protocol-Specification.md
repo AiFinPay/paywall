@@ -13,7 +13,7 @@
 > This is **Document 1 of 4** in the official AiFinPay documentation set:
 >
 > 1. **AIFP-1 — Payment Protocol Specification** *(this document — the normative standard)*
-> 2. [Merchant Integration Guide](./02-Merchant-Integration-Guide.md) — server-side integration for 15 frameworks
+> 2. [Merchant Integration Guide](./02-Merchant-Integration-Guide.md) — server-side integration patterns
 > 3. [AI Agent SDK Specification](./03-AI-Agent-SDK-Specification.md) — client-side agent SDK across 7 languages
 > 4. [Security & Cryptography Specification](./04-Security-and-Cryptography-Specification.md) — threat model & crypto
 >
@@ -25,7 +25,7 @@
 
 This document specifies the AiFinPay Payment Protocol, version 1 (**AIFP-1**), an application-layer payment protocol layered on top of HTTP. It is published for the AiFinPay developer community, protocol implementers, enterprises, standards bodies, and investors. Distribution is unlimited.
 
-AIFP-1 is a **Draft Standard**. It is stable enough for production implementation and is in active use, but normative details MAY be refined through the Open Governance process (Section 22) prior to promotion to **Internet Standard**. Implementers SHOULD track the protocol changelog (Appendix D) and the `AIFP-Version` negotiation mechanism (Section 8.3).
+AIFP-1 is a **Draft Standard**. It is intended to be stable enough for production implementation, but normative details MAY be refined through the Open Governance process (Section 22) prior to promotion to **Internet Standard**. Implementers SHOULD track the protocol changelog (Appendix D) and the `AIFP-Version` negotiation mechanism (Section 8.3).
 
 This memo does not represent the position of any standards-development organization. It is an open specification; implementations MAY compete.
 
@@ -532,7 +532,7 @@ stateDiagram-v2
     Serve --> [*]: 200 + data
 ```
 
-The merchant integrates AIFP as **middleware** (Data Plane). On each request it (1) identifies the agent, (2) checks the free quota, (3) if quota remains, serves and decrements, (4) else checks for a receipt and verifies it locally, (5) on success serves the resource, (6) otherwise returns a `402` challenge. Concrete, production-ready integrations for 15 frameworks are in the [Merchant Integration Guide](./02-Merchant-Integration-Guide.md).
+The merchant integrates AIFP as **middleware** (Data Plane). On each request it (1) identifies the agent, (2) checks the free quota, (3) if quota remains, serves and decrements, (4) else checks for a receipt and verifies it locally, (5) on success serves the resource, (6) otherwise returns a `402` challenge. Documented integration patterns for common frameworks are in the [Merchant Integration Guide](./02-Merchant-Integration-Guide.md).
 
 ---
 
@@ -582,7 +582,7 @@ AIFP-1 is designed to interoperate with the **x402** ecosystem, which also build
 
 ## 14.2. Migration
 
-An agent that already supports x402 can migrate to AIFP in **one click** and receives a **1,000 free paid-request** bonus. The migration endpoint exchanges an existing x402 identity for an AIFP agent identity and wallet binding, preserving the agent's request flow. After migration, the agent uses AIFP receipts and gains access to budgets, multi-chain routing, and (optionally) an Agent Passport.
+An agent that already supports x402 can migrate to AIFP through the migration endpoint. The endpoint exchanges an existing x402 identity for an AIFP agent identity and wallet binding, preserving the agent's request flow. After migration, the agent uses AIFP receipts and gains access to budgets, multi-chain routing, and (optionally) an Agent Passport.
 
 ```http
 POST /v1/migrate/x402
@@ -593,7 +593,7 @@ Content-Type: application/json
 ```
 
 ```json
-{ "agent_id": "agt_4f9a2c7e", "wallet_id": "wlt_...", "free_requests_granted": 1000, "migrated": true }
+{ "agent_id": "agt_4f9a2c7e", "wallet_id": "wlt_...", "migration_program": "public-preview", "migrated": true }
 ```
 
 ---
@@ -620,7 +620,7 @@ A `402` MUST NOT be a dead end. When an agent does **not** advertise AIFP suppor
       "install_sdk":    "npm install @aifinpay/agent",
       "developer_docs": "https://docs.aifinpay.io/agents"
     },
-    "x402_migration": { "available": true, "detail": "One-click migration with a 1000 free paid-request bonus. See Section 14." }
+    "x402_migration": { "available": true, "detail": "x402 migration is available. See Section 14." }
   }
 }
 ```
@@ -784,7 +784,7 @@ Every challenge and receipt carries a **single-use nonce** (≥128 bits). The me
 ## 19.1. Settlement models
 
 - **On-chain stablecoin.** The agent's wallet pays the merchant address in `USDC`/`USDT`/`PYUSD`; `tx_ref` is the tx hash. A non-custodial on-chain **payment splitter** can route protocol fees and multi-party splits atomically.
-- **Fiat / stablecoin hybrid.** Via fiat rails (e.g., BVNK), settlement may originate or terminate in fiat with stablecoin in between. The receipt's `tx_ref` carries the settlement reference.
+- **Fiat / stablecoin hybrid.** Via regulated fiat rails, settlement may originate or terminate in fiat with stablecoin in between. The receipt's `tx_ref` carries the settlement reference.
 
 ## 19.2. Supported networks (12)
 
@@ -1001,7 +1001,7 @@ None of these are required for AIFP-1 conformance; all are optional and capabili
 | **Splitter-only EVM (2)** | BOT Chain, XRPL EVM | Payment splitter |
 | **Splitter MVP non-EVM (2)** | NEAR, Aptos | Payment splitter (MVP) |
 
-Accepted assets: `USDC`, `USDT`, `PYUSD` (network-dependent). Fiat/stablecoin hybrid settlement via BVNK.
+Accepted assets: `USDC`, `USDT`, `PYUSD` (network-dependent). Fiat/stablecoin hybrid settlement is supported through regulated settlement rails.
 
 # Appendix C. Complete Error Registry
 

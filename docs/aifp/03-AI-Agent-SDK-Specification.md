@@ -398,7 +398,7 @@ The SDK speaks both AIFP and x402. On a `402` it inspects the challenge scheme:
 - `Accept-Payment: aifp/1.0` / `scheme:"aifp"` → AIFP flow.
 - x402 challenge → x402 flow (if enabled), or prompt migration.
 
-**One-click migration** (1,000 free paid-request bonus):
+**x402 migration:**
 
 ```ts
 const { agentId, walletId, freeRequestsGranted } =

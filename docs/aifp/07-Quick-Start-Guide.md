@@ -76,7 +76,7 @@ ok, claims = verify_receipt(jwt, merchant_id="mrch_9f3a1c2b", resource="/api/dat
 # ok == True only if signature + aud + resource + amount + exp + unused-nonce all pass
 ```
 
-You're live. Settlement (stablecoin or hybrid fiat via BVNK) lands at your payout address after the 1% AiFinPay protocol fee and any network or settlement costs.
+In production, settlement through stablecoin or hybrid fiat/stablecoin rails lands at your payout address after the 1% AiFinPay protocol fee and any network or settlement costs.
 
 ---
 

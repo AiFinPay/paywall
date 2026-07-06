@@ -127,8 +127,8 @@ npx @aifinpay/conformance run --role merchant --base https://my-impl.example.com
   support of the previous MAJOR.
 - **Receipts** remain verifiable within their TTL across MINOR upgrades; `kid` rotation
   never breaks in-flight receipts.
-- **x402 compatibility** is maintained as a first-class interop surface (1,000 free
-  migration requests).
+- **x402 compatibility** is maintained as a first-class interop surface. Any migration
+  incentives are published through the official developer portal.
 
 ---
 

@@ -243,7 +243,7 @@
       "name": "Migration API",
       "item": [
         {
-          "name": "Migrate from x402 (1000 free requests)",
+          "name": "Migrate from x402",
           "request": {
             "method": "POST",
             "header": [{ "key": "Content-Type", "value": "application/json" }],

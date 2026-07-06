@@ -7,7 +7,7 @@
 - An AiFinPay sandbox merchant endpoint.
 - A test wallet funded with sandbox tokens.
 - A sandbox API key that starts with `sk_test_`.
-- A test token source or faucet. TODO: add the exact faucet URL from the deployed sandbox.
+- A test token source for sandbox funds. The public faucet URL is published with the hosted sandbox.
 
 ## Install
 

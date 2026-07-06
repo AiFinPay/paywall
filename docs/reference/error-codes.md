@@ -1,12 +1,14 @@
 # Error Codes
 
 This table uses the real registry codes currently documented in the repository.
-Bridge-specific codes were not found in this workspace, so those remain a TODO.
+Bridge-specific codes are maintained in the related bridge implementations and are not listed
+as part of this public registry page.
 
-## Open Questions
+## Verification Scope
 
-- TODO: verify bridge error files in the related bridge repos, especially `bridge/*/errors`.
-- TODO: confirm whether any SDK-specific wrapper codes exist outside the documented `AIFP-*` registry.
+- Public registry codes are sourced from the AIFP documents in this repository.
+- Bridge implementation codes should be verified in the corresponding bridge repositories.
+- SDK wrapper errors should map back to the documented `AIFP-*` registry where possible.
 
 ## Registry
 

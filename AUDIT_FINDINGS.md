@@ -46,3 +46,24 @@ No committed private keys, `.env` files, seed phrases, or raw secret values were
 - No external contract audit report is present in the repository.
 - No deployment manifest or contract address registry is present in the repository.
 - PDFs mirror the canonical Markdown package and may need regeneration after Phase 1 text edits.
+
+## Phase 1 - Fact Accuracy And Public-Readiness Corrections
+
+Status: completed.
+
+### Corrections Applied
+
+| Finding | Correction |
+|---|---|
+| Partner-specific fiat rail naming | Replaced public `BVNK` references with neutral regulated fiat/stablecoin rail wording. |
+| Hard-coded x402 migration incentive | Removed `1,000 free requests` wording from docs, OpenAPI, and Postman; replaced with optional migration program metadata. |
+| Public TODOs in quickstarts | Replaced faucet TODOs with hosted sandbox test-token tooling language. |
+| Public TODOs in error-code reference | Replaced TODO language with explicit verification scope. |
+| Unsupported production claims | Reworded `live`, `production-ready integrations`, and `15+ frameworks` claims into documented patterns, roadmap, or draft-standard language. |
+| Third-party audit implication | Reworded smart-contract/security language so no external audit is implied without a linked report. |
+
+### Remaining Known Limitations
+
+- PDF copies in `docs/aifp/*.pdf` were not regenerated in Phase 1 and may still contain previous wording until the PDF generation step is run.
+- Package registry availability still needs independent verification before release notes claim published SDKs.
+- No contract deployment registry or third-party audit report is present in this repository.

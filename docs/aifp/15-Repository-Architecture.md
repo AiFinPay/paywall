@@ -54,7 +54,7 @@ github.com/aifinpay
 
 | Repo | Contents |
 |---|---|
-| `server` | Reference implementation: challenge/quote/pay/receipt, JWKS, settlement adapters (12 networks), hybrid fiat (BVNK), webhooks. Tracks every Final AIP. |
+| `server` | Reference implementation: challenge/quote/pay/receipt, JWKS, settlement adapters, hybrid fiat/stablecoin rails, webhooks. Tracks every Final AIP. |
 
 ### Merchant SDK & Agent SDK
 

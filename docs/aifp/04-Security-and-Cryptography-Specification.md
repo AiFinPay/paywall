@@ -340,7 +340,7 @@ Webhook HMAC secrets and API keys support dual-secret rotation (accept old+new d
 
 # 14. Smart Contract & Chain Security
 
-- **Payment splitter** (non-custodial): routes protocol fee and multi-party splits atomically; audited; minimal surface; reentrancy-guarded; pull-payment pattern where applicable.
+- **Payment splitter** (non-custodial): routes protocol fee and multi-party splits atomically; designed for a minimal surface; reentrancy-guarded; pull-payment pattern where applicable. External review status must be linked before any implementation claims third-party review.
 - **mSECCO escrow** (Full Core networks): binds Passport wallets and backs streaming channels; funds released only on signed conditions.
 - **Oracle:** **Pyth** price feeds for asset/USD conversion; staleness and confidence-interval checks before using a price.
 - **Chain risk:** confirmation-depth policy per chain for high-value resources; re-org awareness; per-network capability tiers (Full Core / Splitter-only EVM / Splitter MVP non-EVM, AIFP-1 Appendix B).
@@ -350,7 +350,7 @@ Webhook HMAC secrets and API keys support dual-secret rotation (accept old+new d
 
 # 15. Fiat Settlement Security
 
-- Hybrid fiat/stablecoin settlement via regulated rails (e.g., BVNK). The receipt's `tx_ref` carries the settlement reference.
+- Hybrid fiat/stablecoin settlement via regulated rails. The receipt's `tx_ref` carries the settlement reference.
 - **Controls:** sandbox/production isolation, signed settlement callbacks, reconciliation against the ledger, AML/KYC at the rail boundary (applies to merchant payouts, not to per-request agent micropayments).
 - **Chargeback/dispute:** `dispute.opened` webhook; AiFinPay assumes settlement risk for issued receipts, so a merchant who served against a valid receipt is not exposed to the agent's funding risk.
 
@@ -439,7 +439,7 @@ Because verification is local and stateless, a DDoS against merchants cannot be 
 
 ## 20.3. ISO/IEC 27001 (Annex A themes)
 
-Cryptography (A.8.24) — EdDSA/TLS/HSM; Access control (A.5.15–18) — scoped keys, MPC; Logging & monitoring (A.8.15–16) — audit log, alerting; Secure development (A.8.25–28) — audited contracts, secure defaults; Supplier/rails (A.5.19–22) — regulated fiat partners. A formal Statement of Applicability is maintained by the AiFinPay security program.
+Cryptography (A.8.24) — EdDSA/TLS/HSM; Access control (A.5.15–18) — scoped keys, MPC; Logging & monitoring (A.8.15–16) — audit log, alerting; Secure development (A.8.25–28) — external review process, secure defaults; Supplier/rails (A.5.19–22) — regulated fiat partners. A formal Statement of Applicability is maintained by the AiFinPay security program.
 
 ---
 

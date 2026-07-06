@@ -416,8 +416,8 @@ paths:
       operationId: migrateFromX402
       summary: Migrate an x402 integration to AIFP
       description: |
-        Bridges an existing x402 client. Grants **1000 free requests** to ease
-        migration. Maps x402 header challenges to AIFP Payment Challenges.
+        Bridges an existing x402 client into an AIFP agent identity. Maps x402
+        header challenges to AIFP Payment Challenges.
       security:
         - ApiKeyAuth: []
       requestBody:
@@ -731,7 +731,7 @@ components:
       type: object
       properties:
         migration_id: { type: string }
-        free_requests_granted: { type: integer, const: 1000 }
+        migration_program: { type: string, description: Optional program metadata, if a public migration program is active. }
         status: { type: string, enum: [active] }
 
     Error:

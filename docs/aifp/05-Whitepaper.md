@@ -50,18 +50,17 @@ AIFP does three things no existing rail does together:
 
 1. **Activates HTTP 402.** It turns the long-reserved "Payment Required" status code
    into a real, machine-readable payment challenge — the missing primitive of the web.
-2. **Settles instantly and verifiably.** Payments settle on-chain (or via hybrid fiat
-   through BVNK) and produce a signed **Ed25519 receipt** that a merchant verifies
+2. **Settles verifiably.** Payments settle on-chain or through hybrid fiat/stablecoin
+   rails and produce a signed **Ed25519 receipt** that a merchant verifies
    **locally and statelessly** in microseconds — no callback, no database lookup.
 3. **Stays tokenless and neutral.** AIFP has **no native token**. It charges a standard,
    transparent fee (0.3–1%, volume-tiered) on top of standard stablecoins. It is
    infrastructure, not a speculative asset.
 
-AIFP is live across **12 blockchain networks**, accepts **USDC / USDT / PYUSD**, and is
-compatible with the emerging **x402** ecosystem (with a 1,000-free-request migration
-path). It is designed to become the **default payment layer for machine-to-machine
-commerce** — the way TLS became the default for secure transport and Stripe became the
-default for online checkout.
+AIFP-1 defines support for **12 blockchain networks**, accepts **USDC / USDT / PYUSD**,
+and is compatible with the emerging **x402** ecosystem. It is designed as an open
+payment layer for machine-to-machine commerce, where software can discover priced
+resources, pay within policy, and receive verifiable access.
 
 This whitepaper explains **why** the protocol matters, **how** it works, and **where**
 it is going.
@@ -187,7 +186,7 @@ Around this loop, AIFP adds the things a real economy needs: **agent identity an
 reputation (Agent Passport)**, **programmable budgets**, **idempotency and replay
 protection**, **multi-chain settlement**, **hybrid fiat**, **webhooks**, and **x402
 compatibility**. It is, in effect, the **financial operating system for autonomous AI
-commerce** — closer in spirit to Stripe and BVNK than to any crypto manifesto.
+commerce** — closer in spirit to payment infrastructure than to a crypto manifesto.
 
 ---
 
@@ -207,7 +206,7 @@ are and whether they can be relied upon.
               │     Settlement Core      │   │       Trust Layer        │
               │ on-chain (12 networks)   │   │ Agent Passport (pp_*)    │
               │ stablecoin USDC/USDT/    │   │ reputation [0..1000]     │
-              │ PYUSD · hybrid fiat BVNK │   │ risk [0..100] · trust    │
+              │ PYUSD · hybrid fiat rails│   │ risk [0..100] · trust    │
               │ payment splitter ·       │   │ levels · Ed25519 ID keys │
               │ mSECCO escrow · Pyth     │   │ discovery registry       │
               └──────────────────────────┘   └──────────────────────────┘
@@ -270,12 +269,12 @@ Negotiation Layer, and Open Governance.
 
 - **Monetize agent traffic you currently give away.** Charge per request instead of
   hoping agents convert to a subscription. Sub-cent pricing finally works.
-- **Drop-in integration.** Middleware/SDKs for 15+ frameworks (Doc 02). Most merchants
-  add a paywall in under an hour.
+- **Drop-in integration model.** Middleware and framework integration patterns are
+  documented in Doc 02.
 - **Stateless, microsecond verification.** No callback, no added latency, no dependency
   on AiFinPay being reachable on the hot path.
-- **Instant settlement, your choice of rail.** Stablecoin payout or hybrid fiat via
-  BVNK; payment splitter for revenue sharing.
+- **Settlement rail choice.** Stablecoin payout or hybrid fiat/stablecoin settlement
+  through regulated rails; payment splitter for revenue sharing.
 - **Built-in fraud resistance.** Single-use nonces, signed receipts, idempotency, and
   agent reputation reduce abuse without chargebacks.
 - **No platform lock-in.** AIFP is an open standard; merchants keep their customers, keys,
@@ -294,7 +293,7 @@ Negotiation Layer, and Open Governance.
   for the agent's owner.
 - **Fast and cheap.** Sub-second pay-through; micropayment-native fees; multi-chain
   choice of the cheapest/fastest settlement.
-- **x402 friendly.** Existing x402 agents migrate with 1,000 free requests.
+- **x402 friendly.** Existing x402 agents can migrate through the compatibility endpoint.
 
 ---
 
@@ -313,8 +312,8 @@ Negotiation Layer, and Open Governance.
    metered consumption, with escrow binding to the Passport.
 5. **Dynamic pricing with reputation discounts.** Prices clamp to `[min,max]`; reputable
    agents earn up to a −30% discount — incentivizing good behavior economically.
-6. **Hybrid fiat/stablecoin settlement.** Through BVNK, AIFP bridges on-chain speed with
-   off-chain familiarity, so merchants can hold fiat while agents pay in stablecoins.
+6. **Hybrid fiat/stablecoin settlement.** Regulated settlement rails can bridge on-chain
+   speed with off-chain familiarity, so merchants can hold fiat while agents pay in stablecoins.
 7. **Multi-chain abstraction.** One protocol, twelve networks; the agent picks the rail,
    the protocol semantics stay identical.
 
@@ -348,7 +347,7 @@ AIFP monetizes the **transaction**, not the user, and not a token.
 
 - **Volume-tiered protocol fee:** **1% / 1% / 1%** (cap ~1%) on top of the resource
   price, itemized on each receipt. Higher volume → lower tier.
-- **Hybrid fiat settlement** (via BVNK) as a premium rail for enterprises that want fiat
+- **Hybrid fiat settlement** through regulated rails for enterprises that want fiat
   payout.
 - **Enterprise & infrastructure tier:** SLAs, private deployments, advanced reputation /
   compliance modules, dedicated chains/integrations.
@@ -395,7 +394,7 @@ contract — settlement is an implementation detail behind a stable protocol sur
 
 ## 16. Future Roadmap
 
-**2026 — Build & Harden.** Production hardening across all 12 networks; Agent Passport &
+**2026 — Build & Harden.** Production hardening across supported network tiers; Agent Passport &
 Reputation Network GA; Dynamic Pricing Engine; streaming payments (mSECCO channels);
 enterprise hybrid-fiat settlement; deeper x402 interop; SOC 2 / security maturity.
 
@@ -417,11 +416,11 @@ every agent framework and every monetizable API.
 AIFP grows the way protocols grow: by making it trivial for others to build on top.
 
 - **Open spec + reference implementations + conformance tests** (Docs 01, 14).
-- **First-class SDKs** in 7 languages (Doc 11) and **15+ framework guides** (Doc 02).
+- **SDK and framework guidance** for the language surfaces described in Doc 11 and Doc 02.
 - **Developer portal, sandbox, examples, Postman/OpenAPI/JSON Schema** (Docs 07–10, 12).
 - **Open governance (AIP process)** so the community can evolve the standard (Doc 06).
-- **Partner integrations** across infrastructure and AI providers, plus hybrid fiat via
-  BVNK.
+- **Partner integrations** across infrastructure and AI providers, plus hybrid
+  fiat/stablecoin settlement rails.
 
 Every merchant that adds a paywall makes the network more valuable to every agent, and
 every agent with a Passport makes the network more valuable to every merchant. That
@@ -434,13 +433,13 @@ two-sided flywheel — plus tokenless neutrality — is how AIFP compounds into 
 The agentic web has a hole where its payment layer should be. Humans have cards, wallets,
 and checkout flows; agents have nothing that works at micro-scale, across providers,
 instantly, and verifiably. **AIFP fills that hole** with a small, neutral, tokenless
-protocol that activates HTTP 402, settles across 12 chains and hybrid fiat, and produces
+protocol that activates HTTP 402, supports multi-network and hybrid fiat settlement, and produces
 receipts a merchant can trust in microseconds.
 
 We are not building a coin or a closed platform. We are building the **payment standard
 for autonomous AI commerce** — the layer that becomes invisible because it becomes
-assumed. The market is arriving now, the enabling technologies have matured, and the
-protocol is live.
+assumed. The market is arriving now, and the enabling technologies have matured enough
+for an open protocol effort.
 
 **AiFinPay is how agents pay.**
 
@@ -456,7 +455,7 @@ The canonical glossary is **AIFP-1 Appendix A** (Doc 01). Key terms used above:
 - **Agent Passport (`pp_*`)** — protocol-level agent identity with reputation/risk/trust.
 - **mSECCO** — escrow / payment-channel mechanism on Full Core networks.
 - **Pyth** — price oracle used on Full Core networks.
-- **BVNK** — hybrid fiat/stablecoin settlement partner.
+- **Regulated settlement rail** — fiat/stablecoin settlement provider integration.
 
 **Normative & companion documents:** AIFP-1 RFC (01) · Merchant Integration Guide (02) ·
 Agent SDK Spec (03) · Security & Cryptography Spec (04) · AIP Governance (06) · Quick
